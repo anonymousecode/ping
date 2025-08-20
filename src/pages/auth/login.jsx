@@ -27,7 +27,7 @@ export default function Login() {
   return (
     <div className="container d-flex justify-content-center align-items-center vh-100">
       <div className="card shadow p-4" style={{ maxWidth: "400px", width: "100%" }}>
-        <h3 className="text-center mb-4">Login</h3>
+        <h3 className="text-center mb-4">{isRegistered? "Login":"Signup"}</h3>
         <form onSubmit={handleSubmit}>
           <div className="text-start mb-3">
             <label className="form-label">Username</label>
