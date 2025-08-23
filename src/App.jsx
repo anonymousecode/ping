@@ -9,24 +9,34 @@ import Chat from './pages/chat/chat';
 
 function App() {
   const [user, setUser] = useState(null);
+  const [loading,setLoading] = useState(true);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
+      if (currentUser && currentUser.emailVerified) {
+        setUser(currentUser);
+      } else {
+        setUser(null);
+      }
+      setLoading(false); // ✅ finished loading
     });
+
     return () => unsubscribe();
   }, []);
 
+  if (loading) {
+    // ✅ Show loader or blank screen until Firebase finishes
+    return <div>Loading...</div>;
+  }
+
   return (
-    <>
-      <Routes>
-        <Route path="/login" element={user ? <Navigate to="/chat" /> : <Login />} />
-        <Route path="/signup" element={user ? <Navigate to="/chat" /> : <Signup />} />
-        <Route path="/chat" element={user ? <Chat user={user} /> : <Navigate to="/login" />} />
-        {/* default redirect */}
-        <Route path="*" element={<Navigate to={user ? "/chat" : "/login"} />} />
-      </Routes>
-    </>
+    <Routes>
+      <Route path="/login" element={user ? <Navigate to="/chat" /> : <Login />} />
+      <Route path="/signup" element={user ? <Navigate to="/chat" /> : <Signup />} />
+      <Route path="/chat" element={user ? <Chat user={user} /> : <Navigate to="/login" />} />
+      {/* default redirect */}
+      <Route path="*" element={<Navigate to={user ? "/chat" : "/login"} />} />
+    </Routes>
   );
 }
 
