@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { addUser } from './pages/auth/addUser';
 import { Routes, Route, Navigate } from "react-router-dom";
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from "./firebase";
@@ -12,9 +13,15 @@ function App() {
   const [loading,setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser && currentUser.emailVerified) {
         setUser(currentUser);
+        try{
+          await addUser(currentUser);
+        }
+        catch(err){
+          console.log("Error adding user:",err);
+        }
       } else {
         setUser(null);
       }
