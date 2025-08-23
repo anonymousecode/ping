@@ -1,7 +1,26 @@
 import { signOut } from "firebase/auth"
 import { auth } from "../../firebase"
+import { useState, useEffect } from "react";
+import { send,listen } from "./chatService";
 
 export default function Chat({ user }) {
+
+    const [ messages,setMessages] = useState([]);
+    const [newMsg, setNewMsg] = useState("");
+
+    const otherUserId = "testUser123";
+    const chatId = [user.uid, otherUserId].sort().join("_");
+
+    useEffect(()=>{
+        const unsubscribe = listen(chatId, setMessages);
+        return () => unsubscribe();
+    }, [chatId]);
+
+    const Send = async () =>{
+        await send(chatId,user.uid,newMsg);
+        setNewMsg("");
+    };
+
   return (
     <div className="d-flex flex-column vh-100">
       {/* Navbar */}
@@ -57,18 +76,22 @@ export default function Chat({ user }) {
             <small className="text-muted">Last seen 2m ago</small>
           </div>
 
-          {/* Messages */}
-          <div className="flex-grow-1 overflow-auto p-3 bg-light">
-            <div className="d-flex mb-2">
-              <div className="p-2 bg-white rounded shadow-sm">
-                Hey! How are you?
+        {/* Messages */}
+        <div className="flex-grow-1 overflow-auto p-3 bg-light">
+            {messages.map((msg) => (
+              <div
+                key={msg.id}
+                className={`d-flex mb-2 ${msg.senderId === user.uid ? "justify-content-end" : "justify-content-start"}`}
+              >
+                <div
+                  className={`p-2 rounded shadow-sm ${
+                    msg.senderId === user.uid ? "bg-primary text-white" : "bg-white"
+                  }`}
+                >
+                  {msg.text}
+                </div>
               </div>
-            </div>
-            <div className="d-flex justify-content-end mb-2">
-              <div className="p-2 bg-primary text-white rounded shadow-sm">
-                I’m good! What about you?
-              </div>
-            </div>
+            ))}
           </div>
 
           {/* Message Input */}
@@ -77,8 +100,10 @@ export default function Chat({ user }) {
               type="text"
               placeholder="Type a message..."
               className="form-control"
+              value={newMsg}
+              onChange={(e) => setNewMsg(e.target.value)}
             />
-            <button className="btn btn-primary ms-2">Send</button>
+            <button onClick={Send} className="btn btn-primary ms-2">Send</button>
           </div>
         </div>
       </div>
