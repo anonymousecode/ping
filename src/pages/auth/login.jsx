@@ -45,7 +45,7 @@ export default function Login() {
 
         {error && <p style={{color:'red'}}> {error}</p>}
 
-        <p>
+        <p className='text-center'>
         Not a user ? <span onClick={() => navigate("/signup")} style={{ color: "blue", cursor: "pointer" }}>Signup</span>
       </p>
       </div>

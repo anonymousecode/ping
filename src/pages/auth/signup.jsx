@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {auth} from '../../firebase';
-import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
+import { createUserWithEmailAndPassword, sendEmailVerification, signOut } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
 
 export default function Signup(){
 
@@ -8,6 +9,7 @@ export default function Signup(){
     const [password,setPassword] = useState("");
     const [cpassword,setCPassword] =useState("");
     const [error,setError] = useState("");
+    const navigate = useNavigate();
 
     const handleSignup = async(e) =>{
         e.preventDefault();
@@ -24,7 +26,10 @@ export default function Signup(){
             const user = userCredential.user;
 
             await sendEmailVerification(user);
+            await signOut(auth);
             alert("Verification email sent! pls check your mail")
+
+            navigate('/login');
         }catch(err){
             setError(err.message);
         }
@@ -74,6 +79,8 @@ export default function Signup(){
           </button>
         </form>
         {error && <p style={{ color: "red" }}>{error}</p>}
+        <p className='text-center'> Already a user ? <span onClick={() => navigate("/login")} style={{ color: "blue", cursor: "pointer" }}>Login</span>
+      </p>
       </div>
     </div>
 
