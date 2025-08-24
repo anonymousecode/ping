@@ -1,12 +1,33 @@
-# React + Vite
+# 🚀 Ping — Realtime Chat App  
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Ping is a **real-time chat application** built with **React + Firebase**.  
+It supports one-to-one messaging with a responsive UI (mobile, tablet, desktop).  
+  <img src="https://github.com/anonymousecode/ping/blob/main/public/logo.png"  width="15%" alt="Ping" />
 
-Currently, two official plugins are available:
+[live-preview](https://pi-ng.netlify.app)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## ✨ Features
+- 🔑 **Firebase Authentication** (email & password)  
+- 🗂️ **Firestore Database** for realtime messaging  
+- 👥 Add friends by email  
+- 💬 One-to-one chat with live updates  
+- 📱 **Responsive UI** (mobile-first, works like WhatsApp)  
+- 🔒 Secure with Firestore & Storage Rules  
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🛠️ Tech Stack
+- **Frontend**: React, Bootstrap  
+- **Backend**: Firebase (Auth, Firestore)  
+- **Hosting**: Netlify
+
+---
+
+## ⚡ Getting Started
+
+### 1. Clone the repo
+```bash
+git clone https://github.com/your-username/ping.git
+cd ping
