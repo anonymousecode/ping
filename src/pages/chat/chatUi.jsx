@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { send, listen } from "./chatService";
 
+
 export default function ChatUI({ user, selectedFriend, onBack }) {
+
   const [messages, setMessages] = useState([]);
   const [newMsg, setNewMsg] = useState("");
 
@@ -23,11 +25,13 @@ export default function ChatUI({ user, selectedFriend, onBack }) {
     return (
       <div className="d-flex flex-column flex-grow-1 justify-content-center align-items-center p-3">
         <p className="text-muted text-center">Select a chat to start messaging</p>
+
       </div>
     );
   }
 
   return (
+
     <div className="d-flex flex-column flex-grow-1 h-100">
       {/* Header */}
       <div className="d-flex justify-content-between align-items-center border-bottom px-3 py-2 bg-white">
@@ -41,6 +45,7 @@ export default function ChatUI({ user, selectedFriend, onBack }) {
           </h6>
         </div>
         <small className="text-muted d-none d-sm-inline">Online</small>
+
       </div>
 
       {/* Messages */}
@@ -57,6 +62,7 @@ export default function ChatUI({ user, selectedFriend, onBack }) {
                 msg.senderId === user.uid ? "bg-primary text-white" : "bg-white"
               }`}
               style={{ maxWidth: "75%", wordBreak: "break-word" }}
+
             >
               {msg.text}
             </div>
@@ -65,16 +71,20 @@ export default function ChatUI({ user, selectedFriend, onBack }) {
       </div>
 
       {/* Input */}
+
       <div className="border-top p-2 px-3 bg-white d-flex gap-2">
+
         <input
           type="text"
           placeholder="Type a message..."
           className="form-control"
           value={newMsg}
           onChange={(e) => setNewMsg(e.target.value)}
+
           onKeyDown={(e) => e.key === "Enter" && handleSend()}
         />
         <button onClick={handleSend} className="btn btn-primary flex-shrink-0">
+
           Send
         </button>
       </div>
