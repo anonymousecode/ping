@@ -1,6 +1,6 @@
-/* Make the app take full height and center content */
-body, html, #root {
-  height: 100%;
+html, body, #root {
+  height: 100vh;      /* match viewport height */
   margin: 0;
   padding: 0;
+  overflow: hidden;   /* prevent unnecessary scrolling */
 }

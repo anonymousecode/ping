@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { send, listen } from "./chatService";
 
-export default function ChatUI({ user, selectedFriend }) {
+export default function ChatUI({ user, selectedFriend, onBack }) {
   const [messages, setMessages] = useState([]);
   const [newMsg, setNewMsg] = useState("");
 
@@ -21,18 +21,26 @@ export default function ChatUI({ user, selectedFriend }) {
 
   if (!selectedFriend) {
     return (
-      <div className="d-flex flex-column flex-grow-1 justify-content-center align-items-center">
-        <p className="text-muted">Select a chat to start messaging</p>
+      <div className="d-flex flex-column flex-grow-1 justify-content-center align-items-center p-3">
+        <p className="text-muted text-center">Select a chat to start messaging</p>
       </div>
     );
   }
 
   return (
-    <div className="d-flex flex-column flex-grow-1">
-      {/* Chat Header */}
+    <div className="d-flex flex-column flex-grow-1 h-100">
+      {/* Header */}
       <div className="d-flex justify-content-between align-items-center border-bottom px-3 py-2 bg-white">
-        <h6 className="mb-0">{selectedFriend.displayName || selectedFriend.email}</h6>
-        <small className="text-muted">Online</small>
+        <div className="d-flex align-items-center gap-2">
+          {/* Back button for small screens */}
+          <button className="btn btn-sm btn-secondary d-md-none" onClick={onBack}>
+            ←
+          </button>
+          <h6 className="mb-0 text-truncate" style={{ maxWidth: "150px" }}>
+            {selectedFriend.displayName || selectedFriend.email}
+          </h6>
+        </div>
+        <small className="text-muted d-none d-sm-inline">Online</small>
       </div>
 
       {/* Messages */}
@@ -48,6 +56,7 @@ export default function ChatUI({ user, selectedFriend }) {
               className={`p-2 rounded shadow-sm ${
                 msg.senderId === user.uid ? "bg-primary text-white" : "bg-white"
               }`}
+              style={{ maxWidth: "75%", wordBreak: "break-word" }}
             >
               {msg.text}
             </div>
@@ -56,15 +65,16 @@ export default function ChatUI({ user, selectedFriend }) {
       </div>
 
       {/* Input */}
-      <div className="border-top p-3 bg-white d-flex">
+      <div className="border-top p-2 px-3 bg-white d-flex gap-2">
         <input
           type="text"
           placeholder="Type a message..."
           className="form-control"
           value={newMsg}
           onChange={(e) => setNewMsg(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && handleSend()}
         />
-        <button onClick={handleSend} className="btn btn-primary ms-2">
+        <button onClick={handleSend} className="btn btn-primary flex-shrink-0">
           Send
         </button>
       </div>
