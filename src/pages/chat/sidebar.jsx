@@ -22,16 +22,21 @@ export default function Sidebar({ user, onSelectChat }) {
 
   const handleAddFriend = async () => {
     if (!email) return;
-    const success = await addFriend(user.uid, email);
-    if (success) {
-      setEmail("");
-    } else {
-      alert("User not found");
+    try {
+      const success = await addFriend(user.uid, user, email);
+      if (success) {
+        setEmail("");
+      } else {
+        alert("User not found or already in contacts.");
+      }
+    } catch (err) {
+      console.error("Error adding friend:", err);
+      alert("Something went wrong while adding friend.");
     }
   };
 
   return (
-    <div className="col-3 border-end bg-light p-3">
+    <div className="h-100 d-flex flex-column p-3 border-end bg-light">
       {/* Add Friend */}
       <div className="d-flex mb-3">
         <input
@@ -47,7 +52,7 @@ export default function Sidebar({ user, onSelectChat }) {
       </div>
 
       {/* Contacts */}
-      <div className="list-group">
+      <div className="list-group flex-grow-1 overflow-auto">
         {contacts.map((c) => (
           <div
             key={c.uid}
