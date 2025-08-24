@@ -32,7 +32,7 @@ export default function Chat({ user }) {
         <div className="d-flex align-items-center gap-2 text-truncate" style={{ maxWidth: "60%" }}>
           <small className="mb-0 text-truncate">{user?.email}</small>
           <span className="text-success small d-none d-sm-inline">Online</span>
-          <button className="btn btn-sm btn-danger">Logout</button>
+          <button onClick={()=> signOut(auth)} className="btn btn-sm btn-danger">Logout</button>
         </div>
       </div>
 
